@@ -1,94 +1,66 @@
-#ifndef CLASSIFIER_LIST_H
-#define CLASSIFIER_LIST_H
+#include "FrequencyList.hpp"
 
-#include <iostream>
-#include <string>
-using std::string;
-
-struct probabilityNode
-{
-	//constructor
-	probabilityNode(string data, double probability) { this->next = NULL; this->data = data; this->probability = probability; }
-
-	string data;
-	double probability;
-	probabilityNode* next;
-	probabilityNode* previous;
-};
-
-class ProbabilityList
-{
-public:
-	//constructor
-	ProbabilityList();
-	~ProbabilityList();
-
-	//accessor functions
-	probabilityNode* getHead();
-
-	//data handling functions
-	void insert(string,double);
-	void remove(string);
-	double getProbability(string);
-	int size();
-	bool isEmpty();
-
-private:
-	probabilityNode* head;
-	probabilityNode* tail;
-	int listSize;
-};
-
-
-ProbabilityList::ProbabilityList()
+FrequencyList::FrequencyList()
 {
 	this->head = NULL;
 	this->listSize = 0;
 }
 
-ProbabilityList::~ProbabilityList()
+FrequencyList::~FrequencyList()
 {
-	while(this->listSize > 0)
+	while(this->listSize>0)
 		this->remove(this->head->data);
 }
 
-probabilityNode* ProbabilityList::getHead()
+node* FrequencyList::getHead()
 {
 	return this->head;
 }
 
 //the insert function doesn't allow duplicates in the list
-void ProbabilityList::insert(string data, double probability)
+void FrequencyList::insert(string data)
 {
 	if(this->head==NULL)
 	{
-		this->head = new probabilityNode(data,probability);
+		this->head = new node(data);
 		this->tail = this->head;
 		this->listSize++;
 	}
 	else
 	{
-		probabilityNode* traversalNode = this->head;
+		node* traversalNode = this->head;
 		bool sameDataFound = false;
 
 		//traversalNode->data==data because the data can match the data in the head, which we will miss without this condition;
 		//in other words, if the data matches the field in the head, then we go inside the loop and go out immediately;
 		//otherwise, the loop continues until a match is found or the end of the list is reached
-		while(traversalNode->next != NULL)
+		while(traversalNode->next != NULL || traversalNode->data==data)
+		{
+			if(traversalNode->data==data)
+			{
+				traversalNode->frequency++;
+				traversalNode = NULL;
+				sameDataFound = true;
+				break;
+			}
 			traversalNode = traversalNode->next;
+		}
 
-		traversalNode->next = new probabilityNode(data,probability);
-		traversalNode->next->previous = traversalNode;
-		this->tail = traversalNode->next;
-		this->listSize++;
+		if(!sameDataFound)
+		{
+			traversalNode->next = new node(data);
+			traversalNode->next->previous = traversalNode;
+			this->tail = traversalNode->next;
+			this->listSize++;
+		}
 	}
 }
 
-void ProbabilityList::remove(string data)
+void FrequencyList::remove(string data)
 {
 	if(this->head!=NULL)
 	{
-		probabilityNode* traversalNode = this->head;
+		node* traversalNode = this->head;
 		while(traversalNode!=NULL && traversalNode->data!=data)
 			traversalNode = traversalNode->next;
 
@@ -128,30 +100,51 @@ void ProbabilityList::remove(string data)
 	}
 }
 
-double ProbabilityList::getProbability(string data)
+int FrequencyList::findFrequency(string data)
 {
-	probabilityNode* traversalNode = this->head;
+	node* traversalNode = this->head;
 	while(traversalNode!=NULL && traversalNode->data!=data)
 		traversalNode = traversalNode->next;
-
 	if(traversalNode==NULL)
-		return 0.0;
+		return 0;
 	else
 	{
-		double probability = traversalNode->probability;
+		int frequency = traversalNode->frequency;
 		traversalNode = NULL;
-		return probability;
+		return frequency;
 	}
 }
 
-int ProbabilityList::size()
+string FrequencyList::findMaxFrequency()
+{
+	if(this->head != NULL)
+	{
+		node* traversalNode = this->head->next;
+		string maximumFrequencyData = this->head->data;
+		int maxFrequency = this->head->frequency;
+
+		while(traversalNode!=NULL)
+		{
+			if(traversalNode->frequency > maxFrequency)
+			{
+				maxFrequency = traversalNode->frequency;
+				maximumFrequencyData = traversalNode->data;
+			}
+			traversalNode = traversalNode->next;
+		}
+
+		return maximumFrequencyData;
+	}
+	else
+		return "";
+}
+
+int FrequencyList::size()
 {
 	return this->listSize;
 }
 
-bool ProbabilityList::isEmpty()
+bool FrequencyList::isEmpty()
 {
 	return this->head==NULL;
 }
-
-#endif

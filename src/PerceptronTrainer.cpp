@@ -1,51 +1,6 @@
-#ifndef LOGISTIC_REGRESSION_TRAINER_H
-#define LOGISTIC_REGRESSION_TRAINER_H
+#include "PerceptronTrainer.hpp"
 
-#include "FrequencyHashTable.h"
-#include "WordHashTable.h"
-#include <vector>
-#include <string>
-#include <fstream>
-using std::vector;
-using std::string;
-using std::ofstream;
-
-const double INFINITY = 1000000000000.0;
-
-class LogisticRegressionTrainer
-{
-public:
-	LogisticRegressionTrainer(vector<string>, vector<string>);
-	~LogisticRegressionTrainer();
-
-	void trainClassifier();
-
-private:
-	void findDistinctCategories();
-	void countVocabulary();
-	void initializeTransformedDocuments();
-	void getMostFrequentWordsFromVocabulary();
-	void convertCategoriesToNumbers();
-	void transformDocuments();
-	void findDocumentWords(unsigned int);
-	void initializeWeights();
-	void saveTrainedDataToFile();
-
-	vector<string> documents;
-	vector<string> categories;
-	vector<string> distinctCategories;
-	int* categoriesInNumbers;
-	int** transformedDocuments;
-	double** weights;
-	FrequencyHashTable* words;
-	FrequencyHashTable* documentWords;
-	double vocabularySize;
-	int transformedDocumentSize;
-	string* mostFrequentWords;
-};
-
-
-LogisticRegressionTrainer::LogisticRegressionTrainer(vector<string> data, vector<string> categories)
+PerceptronTrainer::PerceptronTrainer(vector<string> data, vector<string> categories)
 {
 	this->documents = data;
 	this->categories = categories;
@@ -61,7 +16,7 @@ LogisticRegressionTrainer::LogisticRegressionTrainer(vector<string> data, vector
 	this->weights = NULL;
 }
 
-LogisticRegressionTrainer::~LogisticRegressionTrainer()
+PerceptronTrainer::~PerceptronTrainer()
 {
 	for(unsigned int i=0; i<this->documents.size(); i++)
 		delete this->transformedDocuments[i];
@@ -76,8 +31,8 @@ LogisticRegressionTrainer::~LogisticRegressionTrainer()
 	delete this->mostFrequentWords;
 }
 
-//uses the one-vs-all method for training the LogisticRegressionTrainer
-void LogisticRegressionTrainer::trainClassifier()
+//uses the one-vs-all method for training the PerceptronTrainer
+void PerceptronTrainer::trainClassifier()
 {
 	this->initializeWeights();
 	int numberOfDistinctCategories = static_cast<int>(this->distinctCategories.size());
@@ -88,9 +43,9 @@ void LogisticRegressionTrainer::trainClassifier()
 
 	for(int i=0; i<numberOfDistinctCategories; i++)
 	{
+		this->normalizeCategories(i+1); //+1 because the numbering of categories is one-based
 		iterations = 0;
 		change = true;
-		double cost = INFINITY;
 
 		while(change && iterations<1000)
 		{
@@ -98,6 +53,32 @@ void LogisticRegressionTrainer::trainClassifier()
 			iterations++;
 			for(unsigned int currentDocument=0; currentDocument<numberOfDocuments; currentDocument++)
 			{
+				wTransposeTimesX = 0.0;
+				if(this->categories[currentDocument]==this->distinctCategories[i])
+				{
+					for(int currentFeature=0; currentFeature<this->transformedDocumentSize; currentFeature++)
+						wTransposeTimesX += this->transformedDocuments[currentDocument][currentFeature] * this->weights[i][currentFeature];
+				}
+				else
+				{
+					for(int currentFeature=0; currentFeature<this->transformedDocumentSize; currentFeature++)
+						wTransposeTimesX += this->transformedDocuments[currentDocument][currentFeature] * this->weights[i][currentFeature] * -1;
+				}
+
+				if(wTransposeTimesX < 0.00001)
+				{
+					if(this->categories[currentDocument]==this->distinctCategories[i])
+					{
+						for(int j=0; j<this->transformedDocumentSize; j++)
+							this->weights[i][j] += this->transformedDocuments[currentDocument][j];
+					}
+					else
+					{
+						for(int j=0; j<this->transformedDocumentSize; j++)
+							this->weights[i][j] += this->transformedDocuments[currentDocument][j] * -1;
+					}
+					change = true;
+				}
 			}
 		}
 	}
@@ -106,7 +87,7 @@ void LogisticRegressionTrainer::trainClassifier()
 
 //finds the distinct categories among those stored in this->categories
 //and stores them into this->distinctCategories
-void LogisticRegressionTrainer::findDistinctCategories()
+void PerceptronTrainer::findDistinctCategories()
 {
 	for(unsigned int i=0; i<this->categories.size(); i++)
 	{
@@ -125,7 +106,7 @@ void LogisticRegressionTrainer::findDistinctCategories()
 	}
 }
 
-void LogisticRegressionTrainer::countVocabulary()
+void PerceptronTrainer::countVocabulary()
 {
 	this->words = new FrequencyHashTable(400);
 	string combinedDocuments = "";
@@ -148,7 +129,7 @@ void LogisticRegressionTrainer::countVocabulary()
 	this->vocabularySize = this->words->countNonemptyEntries();
 }
 
-void LogisticRegressionTrainer::initializeTransformedDocuments()
+void PerceptronTrainer::initializeTransformedDocuments()
 {
 	//we add 1 to the size because that will be used for calculating the b parameter of the decision line
 	if(this->vocabularySize < 1000)
@@ -161,12 +142,12 @@ void LogisticRegressionTrainer::initializeTransformedDocuments()
 		this->transformedDocuments[i] = new int[this->transformedDocumentSize];
 }
 
-void LogisticRegressionTrainer::getMostFrequentWordsFromVocabulary()
+void PerceptronTrainer::getMostFrequentWordsFromVocabulary()
 {
 	this->mostFrequentWords = this->words->getXMostFrequentWords(this->transformedDocumentSize-1);
 }
 
-void LogisticRegressionTrainer::convertCategoriesToNumbers()
+void PerceptronTrainer::convertCategoriesToNumbers()
 {
 	for(unsigned int i=0; i<this->documents.size(); i++)
 	{
@@ -181,16 +162,15 @@ void LogisticRegressionTrainer::convertCategoriesToNumbers()
 	}
 }
 
-void LogisticRegressionTrainer::transformDocuments()
+void PerceptronTrainer::transformDocuments()
 {
 	for(unsigned int i=0; i<this->documents.size(); i++)
 	{
 		this->findDocumentWords(i);
 		//this->transformedDocumentSize-1 because we have one additional position due to the vector transformation
-		this->transformedDocuments[i][0] = 1;
-		for(int j=1; j<this->transformedDocumentSize; j++)
+		for(int j=0; j<this->transformedDocumentSize-1; j++)
 		{
-			this->transformedDocuments[i][j] = static_cast<int>(this->documentWords->getFrequency(this->mostFrequentWords[j-1]));
+			this->transformedDocuments[i][j] = static_cast<int>(this->documentWords->getFrequency(this->mostFrequentWords[j]));
 			if(this->transformedDocuments[i][j]==0)
 				this->transformedDocuments[i][j] = -1;
 		}
@@ -200,7 +180,7 @@ void LogisticRegressionTrainer::transformDocuments()
 	}
 }
 
-void LogisticRegressionTrainer::findDocumentWords(unsigned int documentIndex)
+void PerceptronTrainer::findDocumentWords(unsigned int documentIndex)
 {
 	this->documentWords = new FrequencyHashTable(400);
 	unsigned int position = 0;
@@ -217,7 +197,7 @@ void LogisticRegressionTrainer::findDocumentWords(unsigned int documentIndex)
 	}
 }
 
-void LogisticRegressionTrainer::initializeWeights()
+void PerceptronTrainer::initializeWeights()
 {
 	unsigned int size = this->distinctCategories.size();
 	this->weights = new double*[size];
@@ -229,10 +209,22 @@ void LogisticRegressionTrainer::initializeWeights()
 	}
 }
 
-void LogisticRegressionTrainer::saveTrainedDataToFile()
+void PerceptronTrainer::normalizeCategories(int category)
+{
+	unsigned int numberOfDocuments = this->documents.size();
+	for(unsigned int i=0; i<numberOfDocuments; i++)
+	{
+		if(this->categoriesInNumbers[i]==category)
+			this->transformedDocuments[i][this->transformedDocumentSize-1] = 1;	
+		else
+			this->transformedDocuments[i][this->transformedDocumentSize-1] = -1;
+	}
+}
+
+void PerceptronTrainer::saveTrainedDataToFile()
 {
 	ofstream writer;
-	writer.open("LogisticRegressionTrainedData.txt");
+	writer.open("PerceptronTrainedData.txt");
 	writer << "vocabularySize: " << this->vocabularySize;
 	for(unsigned int i=0; i<this->distinctCategories.size(); i++)
 	{
@@ -244,11 +236,9 @@ void LogisticRegressionTrainer::saveTrainedDataToFile()
 	writer.close();
 	writer.clear();
 
-	writer.open("LogisticRegressionMostFrequentWords.txt");
+	writer.open("PerceptronMostFrequentWords.txt");
 	writer << this->mostFrequentWords[0];
 	for(int i=1; i<this->transformedDocumentSize-1; i++)
 		writer << "\n" << this->mostFrequentWords[i];
 	writer.close();
 }
-
-#endif

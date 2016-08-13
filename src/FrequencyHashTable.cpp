@@ -1,39 +1,4 @@
-#ifndef TRAINING_HASH_TABLE_H
-#define TRAINING_HASH_TABLE_H
-
-#include "FrequencyList.h"
-#include "Heap.h"
-#include <string>
-#include <vector>
-using std::string;
-using std::vector;
-
-class FrequencyHashTable
-{
-public:
-	//constructors
-	FrequencyHashTable();
-	FrequencyHashTable(int);
-	~FrequencyHashTable();
-
-	//accessor functions
-	FrequencyList** getEntries();
-	int getNumberOfAllowedEntries();
-
-	//data handling functions
-	void insert(string);
-	int hash(int);
-	double countNonemptyEntries();
-	double getFrequency(string);
-	string* getXMostFrequentWords(int x);
-
-private:
-	Heap* convertToMaxHeap();
-
-	FrequencyList** entries;
-	int numberOfAllowedEntries;
-};
-
+#include "FrequencyHashTable.hpp"
 
 //constructors
 FrequencyHashTable::FrequencyHashTable()
@@ -141,5 +106,3 @@ Heap* FrequencyHashTable::convertToMaxHeap()
 
 	return heap;
 }
-
-#endif

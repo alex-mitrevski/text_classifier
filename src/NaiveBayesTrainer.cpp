@@ -1,45 +1,4 @@
-#ifndef NAIVE_BAYES_TRAINER_H
-#define NAIVE_BAYES_TRAINER_H
-
-#include "FrequencyHashTable.h"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-using std::cout;
-using std::string;
-using std::vector;
-using std::ofstream;
-using std::ios;
-
-class NaiveBayesTrainer
-{
-public:
-	//constructors
-	NaiveBayesTrainer();
-	NaiveBayesTrainer(vector<string>, vector<string>);
-	~NaiveBayesTrainer();
-
-	void trainClassifier();
-
-private:
-	//training functions
-	double countCategoryDistinctWords(string);
-	void calculateCategoryWordsProbabilities(string, double);
-	double calculateWordProbability(double, double);
-	double calculateCategoryPriorProbability(string);
-	void findDistinctCategories();
-	void findCategoryWords(string);
-	void countVocabulary();
-	void saveToFile();
-
-	vector<string> categories;
-	vector<string> documents;
-	vector<string> distinctCategories;
-	FrequencyHashTable* words;
-	double vocabularySize;
-};
-
+#include "NaiveBayesTrainer.hpp"
 
 NaiveBayesTrainer::NaiveBayesTrainer() { }
 
@@ -72,9 +31,7 @@ void NaiveBayesTrainer::trainClassifier()
 	}
 
 	this->saveToFile();
-	cout << "Training phase finished.\n\n"
-		 << "Press ENTER to continue...";
-	getchar();
+	cout << "Training phase finished.\n";
 }
 
 void NaiveBayesTrainer::countVocabulary()
@@ -158,7 +115,9 @@ void NaiveBayesTrainer::calculateCategoryWordsProbabilities(string category, dou
 {
 	ofstream writer;
 	node* traversalNode;
-	writer.open(category+".txt",ios::app);
+
+    string categoryFileName = category + ".txt";
+	writer.open(categoryFileName.c_str(), ios::app);
 	writer << "\nnumberOfWords: " << categoryDistinctWords;
 
 	for(int i=0; i<words->getNumberOfAllowedEntries(); i++)
@@ -198,7 +157,8 @@ double NaiveBayesTrainer::calculateCategoryPriorProbability(string category)
 
 	prior = numberOfCategoryEntries / (this->categories.size() * 1.0);
 	ofstream writer;
-	writer.open(category+".txt");
+    string categoryFileName = category + ".txt";
+	writer.open(categoryFileName.c_str());
 	writer << "prior: " << prior;
 	writer.close();
 
@@ -216,5 +176,3 @@ void NaiveBayesTrainer::saveToFile()
 	writer << "\nvocabularySize: " << this->vocabularySize;
 	writer.close();
 }
-
-#endif

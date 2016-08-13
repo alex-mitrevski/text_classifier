@@ -1,24 +1,4 @@
-#ifndef HEAP_H
-#define HEAP_H
-
-#include "FrequencyList.h"
-#include <vector>
-using std::vector;
-
-class Heap
-{
-public:
-	Heap();
-	~Heap();
-	void insert(node);
-	string extractMaximum();
-	void bubbleUp();
-	void bubbleDown();
-	void swap(unsigned int, unsigned int);
-
-private:
-	vector<node>* heap;
-};
+#include "Heap.hpp"
 
 Heap::Heap()
 {
@@ -115,5 +95,3 @@ void Heap::swap(unsigned int index1, unsigned int index2)
 	(*this->heap)[index1] = (*this->heap)[index2];
 	(*this->heap)[index2] = temp;
 }
-
-#endif

@@ -1,38 +1,4 @@
-#ifndef WORD_LIST_H
-#define WORD_LIST_H
-
-#include <string>
-using std::string;
-
-struct wordNode
-{
-	wordNode(string data) { this->data = data; this->next = NULL; }
-
-	string data;
-	wordNode* next;
-};
-
-class WordList
-{
-public:
-	//constructor
-	WordList();
-
-	//accessor function
-	wordNode* getHead();
-
-	//data access functions
-	void insert(string);
-	void remove(string);
-	bool exists(string data);
-	int size();
-	bool isEmpty();
-
-private:
-	wordNode* head;
-	int listSize;
-};
-
+#include "WordList.hpp"
 
 WordList::WordList()
 {
@@ -123,5 +89,3 @@ bool WordList::isEmpty()
 {
 	return this->head==NULL;
 }
-
-#endif

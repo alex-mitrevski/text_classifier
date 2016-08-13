@@ -1,35 +1,4 @@
-#ifndef CLASSIFYING_HASH_TABLE_H
-#define CLASSIFYING_HASH_TABLE_H
-
-#include "ProbabilityList.h"
-#include <string>
-#include <vector>
-using std::string;
-using std::vector;
-
-class ProbabilityHashTable
-{
-public:
-	//constructors
-	ProbabilityHashTable();
-	ProbabilityHashTable(int);
-	~ProbabilityHashTable();
-
-	//accessor functions
-	ProbabilityList** getEntries();
-	int getNumberOfAllowedEntries();
-
-	//data handling functions
-	void insert(string,double);
-	int hash(int);
-	double countNonemptyEntries();
-	double getProbability(string);
-
-private:
-	ProbabilityList** entries;
-	int numberOfAllowedEntries;
-};
-
+#include "ProbabilityHashTable.hpp"
 
 //constructors
 ProbabilityHashTable::ProbabilityHashTable()
@@ -105,5 +74,3 @@ double ProbabilityHashTable::getProbability(string data)
 	int key = this->hash(letterSum);
 	return this->entries[key]->getProbability(data);
 }
-
-#endif

@@ -1,38 +1,4 @@
-#ifndef NAIVE_BAYES_CLASSIFIER_H
-#define NAIVE_BAYES_CLASSIFIER_H
-
-#include "ProbabilityHashTable.h"
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <cmath>
-using std::vector;
-using std::string;
-using std::ifstream;
-using std::stringstream;
-using std::istringstream;
-
-class NaiveBayesClassifier
-{
-public:
-	NaiveBayesClassifier();
-	~NaiveBayesClassifier();
-
-	string classifyDocument(string);
-
-private:
-	void readTrainedData();
-	void readCategoryData(string,unsigned int);
-	string findMaximumProbabilityCategory(vector<double>);
-
-	vector<string> distinctCategories;
-	ProbabilityHashTable** words;
-	double vocabularySize;
-	double categoryPrior;
-	double numberOfCategoryWords;
-};
-
+#include "NaiveBayesClassifier.hpp"
 
 NaiveBayesClassifier::NaiveBayesClassifier()
 {
@@ -137,8 +103,9 @@ void NaiveBayesClassifier::readCategoryData(string category, unsigned int catego
 	string line, word;
 	double probability = 0.0;
 
-	reader.open(category+".txt");
-	
+    string categoryFileName = category + ".txt";
+	reader.open(categoryFileName.c_str());
+
 	//takes the category prior probability;
 	//asssumes that the prior is in line 1 in the form:
 	//prior: 0.1234567890
@@ -197,5 +164,3 @@ string NaiveBayesClassifier::findMaximumProbabilityCategory(vector<double> categ
 
 	return finalCategory;
 }
-
-#endif

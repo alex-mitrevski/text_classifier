@@ -1,6 +1,5 @@
 #include "FrequencyHashTable.hpp"
 
-//constructors
 FrequencyHashTable::FrequencyHashTable()
 {
 	this->numberOfAllowedEntries = 0;
@@ -23,19 +22,17 @@ FrequencyHashTable::~FrequencyHashTable()
 	this->numberOfAllowedEntries = 0;
 }
 
-//accessor functions
-FrequencyList** FrequencyHashTable::getEntries()
+FrequencyList** FrequencyHashTable::getEntries() const
 {
 	return this->entries;
 }
 
-int FrequencyHashTable::getNumberOfAllowedEntries()
+int FrequencyHashTable::getNumberOfAllowedEntries() const
 {
 	return this->numberOfAllowedEntries;
 }
 
 
-//data handling functions
 void FrequencyHashTable::insert(string data)
 {
 	int letterSum = 0;
@@ -49,12 +46,12 @@ void FrequencyHashTable::insert(string data)
 	this->entries[key]->insert(data);
 }
 
-int FrequencyHashTable::hash(int key)
+int FrequencyHashTable::hash(int key) const
 {
 	return key % this->numberOfAllowedEntries;
 }
 
-double FrequencyHashTable::countNonemptyEntries()
+double FrequencyHashTable::countNonemptyEntries() const
 {
 	int counter = 0;
 	for(int i=0; i<this->numberOfAllowedEntries; i++)
@@ -62,7 +59,7 @@ double FrequencyHashTable::countNonemptyEntries()
 	return counter;
 }
 
-double FrequencyHashTable::getFrequency(string data)
+double FrequencyHashTable::getFrequency(string data) const
 {
 	int letterSum = 0;
 	for(unsigned int i=0; i<data.size(); i++)
@@ -75,7 +72,7 @@ double FrequencyHashTable::getFrequency(string data)
 	return this->entries[key]->findFrequency(data);
 }
 
-string* FrequencyHashTable::getXMostFrequentWords(int x)
+string* FrequencyHashTable::getXMostFrequentWords(int x) const
 {
 	Heap* maxHeap = this->convertToMaxHeap();
 	string* words = new string[x];
@@ -88,7 +85,7 @@ string* FrequencyHashTable::getXMostFrequentWords(int x)
 	return words;
 }
 
-Heap* FrequencyHashTable::convertToMaxHeap()
+Heap* FrequencyHashTable::convertToMaxHeap() const
 {
 	Heap* heap = new Heap();
 	node* traversalNode;

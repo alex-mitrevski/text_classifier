@@ -12,7 +12,7 @@ ProbabilityList::~ProbabilityList()
 		this->remove(this->head->data);
 }
 
-probabilityNode* ProbabilityList::getHead()
+probabilityNode* ProbabilityList::getHead() const
 {
 	return this->head;
 }
@@ -88,7 +88,7 @@ void ProbabilityList::remove(string data)
 	}
 }
 
-double ProbabilityList::getProbability(string data)
+double ProbabilityList::getProbability(string data) const
 {
 	probabilityNode* traversalNode = this->head;
 	while(traversalNode!=NULL && traversalNode->data!=data)
@@ -104,12 +104,12 @@ double ProbabilityList::getProbability(string data)
 	}
 }
 
-int ProbabilityList::size()
+int ProbabilityList::size() const
 {
 	return this->listSize;
 }
 
-bool ProbabilityList::isEmpty()
+bool ProbabilityList::isEmpty() const
 {
 	return this->head==NULL;
 }

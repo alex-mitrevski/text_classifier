@@ -15,7 +15,6 @@ using std::ios;
 class NaiveBayesTrainer
 {
 public:
-	//constructors
 	NaiveBayesTrainer();
 	NaiveBayesTrainer(vector<string>, vector<string>);
 	~NaiveBayesTrainer();
@@ -23,15 +22,14 @@ public:
 	void trainClassifier();
 
 private:
-	//training functions
-	double countCategoryDistinctWords(string);
-	void calculateCategoryWordsProbabilities(string, double);
-	double calculateWordProbability(double, double);
-	double calculateCategoryPriorProbability(string);
+	double countCategoryDistinctWords(string) const;
+	void calculateCategoryWordsProbabilities(string, double) const;
+	double calculateWordProbability(double, double) const;
+	double calculateCategoryPriorProbability(string) const;
 	void findDistinctCategories();
 	void findCategoryWords(string);
 	void countVocabulary();
-	void saveToFile();
+	void saveToFile() const;
 
 	vector<string> categories;
 	vector<string> documents;

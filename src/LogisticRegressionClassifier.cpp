@@ -19,7 +19,7 @@ LogisticRegressionClassifier::~LogisticRegressionClassifier()
 //with 1 in position i if word i from the dictionary occurs in the document and 0 otherwise;
 //we then calculate transpose(Wj) * X, where Wj is the respective weights vector for category j;
 //the document is classified in the category for which transpose(Wj) * X is maximum
-string LogisticRegressionClassifier::classifyDocument(string document)
+string LogisticRegressionClassifier::classifyDocument(string document) const
 {
 	//we transform the document into a feature vector;
 	//after transformation, the result will be stored in this->transformedNewDocument

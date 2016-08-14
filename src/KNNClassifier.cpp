@@ -25,7 +25,7 @@ KNNClassifier::KNNClassifier(vector<string> documents, vector<string> categories
 	}
 }
 
-string KNNClassifier::classifyDocument(string document)
+string KNNClassifier::classifyDocument(string document) const
 {
 	vector<string> newDocumentWords;
 	vector<int> distances;
@@ -137,7 +137,7 @@ string KNNClassifier::classifyDocument(string document)
 //	return maximumFrequency;
 //}
 
-void KNNClassifier::quickSort(vector<unsigned int>& indices, vector<int>& numbers, unsigned int start, unsigned int end)
+void KNNClassifier::quickSort(vector<unsigned int>& indices, vector<int>& numbers, unsigned int start, unsigned int end) const
 {
 	unsigned int pivot;
 	if(start<end && end-start!=1)
@@ -148,7 +148,7 @@ void KNNClassifier::quickSort(vector<unsigned int>& indices, vector<int>& number
 	}
 }
 
-unsigned int KNNClassifier::partition(vector<unsigned int>& indices, vector<int>& numbers, unsigned int start, unsigned int end)
+unsigned int KNNClassifier::partition(vector<unsigned int>& indices, vector<int>& numbers, unsigned int start, unsigned int end) const
 {
 	unsigned int i = start + 1;
 	int pivot = numbers[start];
@@ -168,14 +168,14 @@ unsigned int KNNClassifier::partition(vector<unsigned int>& indices, vector<int>
 	return i-1;
 }
 
-void KNNClassifier::swap(int &a, int &b)
+void KNNClassifier::swap(int &a, int &b) const
 {
 	int temp = a;
 	a = b;
 	b = temp;
 }
 
-void KNNClassifier::swap(unsigned int &a, unsigned int &b)
+void KNNClassifier::swap(unsigned int &a, unsigned int &b) const
 {
 	int temp = a;
 	a = b;

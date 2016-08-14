@@ -22,7 +22,7 @@ NaiveBayesClassifier::~NaiveBayesClassifier()
 
 //this function assumes that the document is in the "correct" format,
 //i.e. that it is in lowercase and that it has no punctuation
-string NaiveBayesClassifier::classifyDocument(string document)
+string NaiveBayesClassifier::classifyDocument(string document) const
 {
 	vector<double> categoryProbabilities;
 	string word;
@@ -148,7 +148,7 @@ void NaiveBayesClassifier::readCategoryData(string category, unsigned int catego
 	reader.close();
 }
 
-string NaiveBayesClassifier::findMaximumProbabilityCategory(vector<double> categoryProbabilities)
+string NaiveBayesClassifier::findMaximumProbabilityCategory(vector<double> categoryProbabilities) const
 {
 	double maximumProbability = categoryProbabilities[0];
 	string finalCategory = this->distinctCategories[0];

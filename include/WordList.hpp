@@ -8,18 +8,15 @@ using std::string;
 class WordList
 {
 public:
-	//constructor
 	WordList();
 
-	//accessor function
-	wordNode* getHead();
+	wordNode* getHead() const;
 
-	//data access functions
 	void insert(string);
 	void remove(string);
-	bool exists(string data);
-	int size();
-	bool isEmpty();
+	bool exists(string data) const;
+	int size() const;
+	bool isEmpty() const;
 
 private:
 	wordNode* head;

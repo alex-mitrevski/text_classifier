@@ -1,6 +1,5 @@
 #include "ProbabilityHashTable.hpp"
 
-//constructors
 ProbabilityHashTable::ProbabilityHashTable()
 {
 	this->numberOfAllowedEntries = 0;
@@ -23,19 +22,17 @@ ProbabilityHashTable::~ProbabilityHashTable()
 	this->numberOfAllowedEntries = 0;
 }
 
-//accessor functions
-ProbabilityList** ProbabilityHashTable::getEntries()
+ProbabilityList** ProbabilityHashTable::getEntries() const
 {
 	return this->entries;
 }
 
-int ProbabilityHashTable::getNumberOfAllowedEntries()
+int ProbabilityHashTable::getNumberOfAllowedEntries() const
 {
 	return this->numberOfAllowedEntries;
 }
 
 
-//data handling functions
 void ProbabilityHashTable::insert(string data, double probability)
 {
 	int letterSum = 0;
@@ -49,12 +46,12 @@ void ProbabilityHashTable::insert(string data, double probability)
 	this->entries[key]->insert(data,probability);
 }
 
-int ProbabilityHashTable::hash(int key)
+int ProbabilityHashTable::hash(int key) const
 {
 	return key % this->numberOfAllowedEntries;
 }
 
-double ProbabilityHashTable::countNonemptyEntries()
+double ProbabilityHashTable::countNonemptyEntries() const
 {
 	int counter = 0;
 	for(int i=0; i<this->numberOfAllowedEntries; i++)
@@ -62,7 +59,7 @@ double ProbabilityHashTable::countNonemptyEntries()
 	return counter;
 }
 
-double ProbabilityHashTable::getProbability(string data)
+double ProbabilityHashTable::getProbability(string data) const
 {
 	int letterSum = 0;
 	for(unsigned int i=0; i<data.size(); i++)

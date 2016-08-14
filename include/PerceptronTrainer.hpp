@@ -28,7 +28,7 @@ private:
 	void findDocumentWords(unsigned int);
 	void initializeWeights();
 	void normalizeCategories(int);
-	void saveTrainedDataToFile();
+	void saveTrainedDataToFile() const;
 
 	vector<string> documents;
 	vector<string> categories;

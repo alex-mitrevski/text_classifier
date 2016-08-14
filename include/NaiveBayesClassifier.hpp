@@ -19,12 +19,12 @@ public:
 	NaiveBayesClassifier();
 	~NaiveBayesClassifier();
 
-	string classifyDocument(string);
+	string classifyDocument(string) const;
 
 private:
 	void readTrainedData();
 	void readCategoryData(string,unsigned int);
-	string findMaximumProbabilityCategory(vector<double>);
+	string findMaximumProbabilityCategory(vector<double>) const;
 
 	vector<string> distinctCategories;
 	ProbabilityHashTable** words;

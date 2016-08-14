@@ -16,7 +16,7 @@ public:
 	LogisticRegressionClassifier(string);
 	~LogisticRegressionClassifier();
 
-	string classifyDocument(string);
+	string classifyDocument(string) const;
 
 private:
 	void readTransformedDocumentsFromFile();

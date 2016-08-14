@@ -9,19 +9,16 @@ using std::string;
 class ProbabilityList
 {
 public:
-	//constructor
 	ProbabilityList();
 	~ProbabilityList();
 
-	//accessor functions
-	probabilityNode* getHead();
+	probabilityNode* getHead() const;
 
-	//data handling functions
 	void insert(string,double);
 	void remove(string);
-	double getProbability(string);
-	int size();
-	bool isEmpty();
+	double getProbability(string) const;
+	int size() const;
+	bool isEmpty() const;
 
 private:
 	probabilityNode* head;

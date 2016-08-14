@@ -105,13 +105,13 @@ void NaiveBayesTrainer::findCategoryWords(string category)
 	}
 }
 
-double NaiveBayesTrainer::countCategoryDistinctWords(string category)
+double NaiveBayesTrainer::countCategoryDistinctWords(string category) const
 {
 	double distinctWords = this->words->countNonemptyEntries();
 	return distinctWords;
 }
 
-void NaiveBayesTrainer::calculateCategoryWordsProbabilities(string category, double categoryDistinctWords)
+void NaiveBayesTrainer::calculateCategoryWordsProbabilities(string category, double categoryDistinctWords) const
 {
 	ofstream writer;
 	node* traversalNode;
@@ -139,12 +139,12 @@ void NaiveBayesTrainer::calculateCategoryWordsProbabilities(string category, dou
 	delete traversalNode;
 }
 
-double NaiveBayesTrainer::calculateWordProbability(double numberOfOccurences, double totalWords)
+double NaiveBayesTrainer::calculateWordProbability(double numberOfOccurences, double totalWords) const
 {
 	return (numberOfOccurences + 1.0) / (totalWords + this->vocabularySize);
 }
 
-double NaiveBayesTrainer::calculateCategoryPriorProbability(string category)
+double NaiveBayesTrainer::calculateCategoryPriorProbability(string category) const
 {
 	double prior = 0.0;
 	unsigned int numberOfCategoryEntries = 0;
@@ -165,7 +165,7 @@ double NaiveBayesTrainer::calculateCategoryPriorProbability(string category)
 	return prior;
 }
 
-void NaiveBayesTrainer::saveToFile()
+void NaiveBayesTrainer::saveToFile() const
 {
 	ofstream writer;
 

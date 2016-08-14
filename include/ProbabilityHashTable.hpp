@@ -10,20 +10,17 @@ using std::vector;
 class ProbabilityHashTable
 {
 public:
-	//constructors
 	ProbabilityHashTable();
 	ProbabilityHashTable(int);
 	~ProbabilityHashTable();
 
-	//accessor functions
-	ProbabilityList** getEntries();
-	int getNumberOfAllowedEntries();
+	ProbabilityList** getEntries() const;
+	int getNumberOfAllowedEntries() const;
 
-	//data handling functions
 	void insert(string,double);
-	int hash(int);
-	double countNonemptyEntries();
-	double getProbability(string);
+	int hash(int) const;
+	double countNonemptyEntries() const;
+	double getProbability(string) const;
 
 private:
 	ProbabilityList** entries;

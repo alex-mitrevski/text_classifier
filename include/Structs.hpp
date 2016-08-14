@@ -28,7 +28,6 @@ struct transformedDocumentFeature
 //which stores a string and the number of repetitions of that string
 struct node
 {
-	//constructor
 	node(string data) { this->next = NULL; this->previous = NULL; this->data = data; this->frequency = 1; }
 
 	string data;
@@ -42,7 +41,6 @@ struct node
 //which stores a string and the probability of that string
 struct probabilityNode
 {
-	//constructor
 	probabilityNode(string data, double probability) { this->next = NULL; this->data = data; this->probability = probability; }
 
 	string data;

@@ -37,7 +37,7 @@ DocumentTransformer::~DocumentTransformer()
 	delete this->inverseDocumentFrequency;
 }
 
-double DocumentTransformer::getVocabularySize()
+double DocumentTransformer::getVocabularySize() const
 {
 	return this->vocabularySize;
 }
@@ -258,7 +258,7 @@ void DocumentTransformer::extractDocumentWords(string document)
 	}
 }
 
-void DocumentTransformer::saveTransformedDocumentsInFile()
+void DocumentTransformer::saveTransformedDocumentsInFile() const
 {
 	ofstream writer;
 	writer.open("TransformedDocuments.txt");
@@ -284,7 +284,7 @@ void DocumentTransformer::saveTransformedDocumentsInFile()
 	writer.close();
 }
 
-void DocumentTransformer::saveWordsAndFrequenciesInFile()
+void DocumentTransformer::saveWordsAndFrequenciesInFile() const
 {
 	//unsigned int numberOfDocuments = this->documents.size();
 	////we calculate the inverse document frequency of the words
@@ -307,7 +307,7 @@ void DocumentTransformer::saveWordsAndFrequenciesInFile()
 	writer.close();
 }
 
-void DocumentTransformer::saveVocabularySizeInFile()
+void DocumentTransformer::saveVocabularySizeInFile() const
 {
 	ofstream writer;
 	writer.open("VocabularySize.txt");
@@ -369,7 +369,7 @@ void DocumentTransformer::readMostFrequentWordsFromVocabulary()
 	reader.close();
 }
 
-bool DocumentTransformer::fileExists(const char* filename)
+bool DocumentTransformer::fileExists(const char* filename) const
 {
 	ifstream file(filename);
 	bool exists = file.good();

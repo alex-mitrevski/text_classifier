@@ -215,7 +215,7 @@ void LogisticRegressionTrainer::initializeWeights()
 	}
 }
 
-double LogisticRegressionTrainer::logisticFunction(double value)
+double LogisticRegressionTrainer::logisticFunction(double value) const
 {
 	return (1.0 / (1.0 + (1.0/exp(value))));
 }
@@ -224,7 +224,7 @@ double LogisticRegressionTrainer::logisticFunction(double value)
 //category1 1.0 2.0 3.0 and so on
 //category2 1.0 2.0 3.0 and so on
 //... one category per line
-void LogisticRegressionTrainer::saveTrainedDataToFile()
+void LogisticRegressionTrainer::saveTrainedDataToFile() const
 {
 	ofstream writer;
 	writer.open("LogisticRegressionTrainedData.txt");

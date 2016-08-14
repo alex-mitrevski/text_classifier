@@ -1,6 +1,5 @@
 #include "WordHashTable.hpp"
 
-//constructors
 WordHashTable::WordHashTable()
 {
 	this->numberOfAllowedEntries = 0;
@@ -23,19 +22,17 @@ WordHashTable::~WordHashTable()
 	this->numberOfAllowedEntries = 0;
 }
 
-//accessor functions
-WordList** WordHashTable::getEntries()
+WordList** WordHashTable::getEntries() const
 {
 	return this->entries;
 }
 
-int WordHashTable::getNumberOfAllowedEntries()
+int WordHashTable::getNumberOfAllowedEntries() const
 {
 	return this->numberOfAllowedEntries;
 }
 
 
-//data handling functions
 void WordHashTable::insert(string data)
 {
 	int letterSum = 0;
@@ -49,12 +46,12 @@ void WordHashTable::insert(string data)
 	this->entries[key]->insert(data);
 }
 
-int WordHashTable::hash(int key)
+int WordHashTable::hash(int key) const
 {
 	return key % this->numberOfAllowedEntries;
 }
 
-double WordHashTable::countNonemptyEntries()
+double WordHashTable::countNonemptyEntries() const
 {
 	int counter = 0;
 	for(int i=0; i<this->numberOfAllowedEntries; i++)
@@ -62,7 +59,7 @@ double WordHashTable::countNonemptyEntries()
 	return counter;
 }
 
-bool WordHashTable::exists(string data)
+bool WordHashTable::exists(string data) const
 {
 	int letterSum = 0;
 	for(unsigned int i=0; i<data.size(); i++)

@@ -221,7 +221,7 @@ void PerceptronTrainer::normalizeCategories(int category)
 	}
 }
 
-void PerceptronTrainer::saveTrainedDataToFile()
+void PerceptronTrainer::saveTrainedDataToFile() const
 {
 	ofstream writer;
 	writer.open("PerceptronTrainedData.txt");

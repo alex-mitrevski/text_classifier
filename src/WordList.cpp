@@ -6,7 +6,7 @@ WordList::WordList()
 	this->listSize = 0;
 }
 
-wordNode* WordList::getHead()
+wordNode* WordList::getHead() const
 {
 	return this->head;
 }
@@ -66,7 +66,7 @@ void WordList::remove(string data)
 	}
 }
 
-bool WordList::exists(string data)
+bool WordList::exists(string data) const
 {
 	wordNode* traversalNode = this->head;
 	while(traversalNode!=NULL && traversalNode->data!=data)
@@ -80,12 +80,12 @@ bool WordList::exists(string data)
 	}
 }
 
-int WordList::size()
+int WordList::size() const
 {
 	return this->listSize;
 }
 
-bool WordList::isEmpty()
+bool WordList::isEmpty() const
 {
 	return this->head==NULL;
 }

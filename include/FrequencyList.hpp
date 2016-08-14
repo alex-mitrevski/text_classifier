@@ -9,20 +9,17 @@ using std::string;
 class FrequencyList
 {
 public:
-	//constructor
 	FrequencyList();
 	~FrequencyList();
 
-	//accessor functions
-	node* getHead();
+	node* getHead() const;
 
-	//data handling functions
 	void insert(string);
 	void remove(string);
-	int findFrequency(string);
-	string findMaxFrequency();
-	int size();
-	bool isEmpty();
+	int findFrequency(string) const;
+	string findMaxFrequency() const;
+	int size() const;
+	bool isEmpty() const;
 
 private:
 	node* head;

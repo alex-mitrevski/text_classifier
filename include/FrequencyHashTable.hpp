@@ -11,24 +11,21 @@ using std::vector;
 class FrequencyHashTable
 {
 public:
-	//constructors
 	FrequencyHashTable();
 	FrequencyHashTable(int);
 	~FrequencyHashTable();
 
-	//accessor functions
-	FrequencyList** getEntries();
-	int getNumberOfAllowedEntries();
+	FrequencyList** getEntries() const;
+	int getNumberOfAllowedEntries() const;
 
-	//data handling functions
 	void insert(string);
-	int hash(int);
-	double countNonemptyEntries();
-	double getFrequency(string);
-	string* getXMostFrequentWords(int x);
+	int hash(int) const;
+	double countNonemptyEntries() const;
+	double getFrequency(string) const;
+	string* getXMostFrequentWords(int x) const;
 
 private:
-	Heap* convertToMaxHeap();
+	Heap* convertToMaxHeap() const;
 
 	FrequencyList** entries;
 	int numberOfAllowedEntries;

@@ -10,20 +10,17 @@ using std::vector;
 class WordHashTable
 {
 public:
-	//constructors/destructor
 	WordHashTable();
 	WordHashTable(int);
 	~WordHashTable();
 
-	//accessor functions
-	WordList** getEntries();
-	int getNumberOfAllowedEntries();
+	WordList** getEntries() const;
+	int getNumberOfAllowedEntries() const;
 
-	//data handling functions
 	void insert(string);
-	int hash(int);
-	double countNonemptyEntries();
-	bool exists(string);
+	int hash(int) const;
+	double countNonemptyEntries() const;
+	bool exists(string) const;
 
 private:
 	WordList** entries;

@@ -12,7 +12,7 @@ FrequencyList::~FrequencyList()
 		this->remove(this->head->data);
 }
 
-node* FrequencyList::getHead()
+node* FrequencyList::getHead() const
 {
 	return this->head;
 }
@@ -100,7 +100,7 @@ void FrequencyList::remove(string data)
 	}
 }
 
-int FrequencyList::findFrequency(string data)
+int FrequencyList::findFrequency(string data) const
 {
 	node* traversalNode = this->head;
 	while(traversalNode!=NULL && traversalNode->data!=data)
@@ -115,7 +115,7 @@ int FrequencyList::findFrequency(string data)
 	}
 }
 
-string FrequencyList::findMaxFrequency()
+string FrequencyList::findMaxFrequency() const
 {
 	if(this->head != NULL)
 	{
@@ -139,12 +139,12 @@ string FrequencyList::findMaxFrequency()
 		return "";
 }
 
-int FrequencyList::size()
+int FrequencyList::size() const
 {
 	return this->listSize;
 }
 
-bool FrequencyList::isEmpty()
+bool FrequencyList::isEmpty() const
 {
 	return this->head==NULL;
 }

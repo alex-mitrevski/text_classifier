@@ -23,7 +23,7 @@ public:
 	DocumentTransformer(vector<string>,vector<string>,string);
 	~DocumentTransformer();
 
-	double getVocabularySize();
+	double getVocabularySize() const;
 
 	void transformDocuments();
 	vector<transformedDocumentFeature> transformSingleDocument(string,bool addOneAdditional = false);
@@ -34,12 +34,12 @@ private:
 	void calculateInverseDocumentFrequency();
 	void extractDocumentWords(unsigned int);
 	void extractDocumentWords(string);
-	void saveTransformedDocumentsInFile();
-	void saveWordsAndFrequenciesInFile();
-	void saveVocabularySizeInFile();
+	void saveTransformedDocumentsInFile() const;
+	void saveWordsAndFrequenciesInFile() const;
+	void saveVocabularySizeInFile() const;
 	void readVocabularySizeFromFile(const char*);
 	void readMostFrequentWordsFromVocabulary();
-	bool fileExists(const char* filename);
+	bool fileExists(const char* filename) const;
 
 	vector<string> documents;
 	vector<string> categories;

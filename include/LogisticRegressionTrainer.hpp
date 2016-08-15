@@ -31,7 +31,6 @@ private:
 	void countVocabulary();
 	void readTransformedDocumentsFromFile();
 	void initializeWeights();
-	double logisticFunction(double) const;
 	void saveTrainedDataToFile() const;
 
 	vector<string> documents;

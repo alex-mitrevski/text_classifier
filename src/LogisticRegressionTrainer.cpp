@@ -1,5 +1,13 @@
 #include "LogisticRegressionTrainer.hpp"
 
+namespace
+{
+    double logisticFunction(double value)
+    {
+        return (1.0 / (1.0 + (1.0/exp(value))));
+    }
+}
+
 LogisticRegressionTrainer::LogisticRegressionTrainer(vector<string> data, vector<string> categories, string encoding)
 {
 	this->documents = data;
@@ -80,7 +88,7 @@ void LogisticRegressionTrainer::trainClassifier(double learningRate)
 							else
 								yi = 0.0;
 
-							sum += ((this->logisticFunction(wTransposeTimesX) - yi) * this->transformedDocuments[currentDocument][indexWhereJFound].frequency);
+							sum += ((logisticFunction(wTransposeTimesX) - yi) * this->transformedDocuments[currentDocument][indexWhereJFound].frequency);
 						}
 					}
 
@@ -213,11 +221,6 @@ void LogisticRegressionTrainer::initializeWeights()
 		for(int j=0; j<this->transformedDocumentSize; j++)
 			this->weights[i][j] = 0.0;
 	}
-}
-
-double LogisticRegressionTrainer::logisticFunction(double value) const
-{
-	return (1.0 / (1.0 + (1.0/exp(value))));
 }
 
 //LogisticRegressionTrainedData.txt will have the form:
